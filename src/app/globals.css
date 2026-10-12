@@ -1,0 +1,287 @@
+@import "tailwindcss";
+
+/*
+ * Palette: a circuit board at night.
+ * Solder-mask teal for surfaces, one blue trace for the software path, one green trace for the data path.
+ */
+:root {
+  --bg: #05141b;
+  --raise: #0a1f29;
+  --raise-2: #0f2a36;
+  --line: #1a3a48;
+  --line-strong: #27566a;
+  --text: #e4f0f4;
+  --muted: #8faab6;
+  --faint: #6a8794;
+  --blue: #49c6ff;
+  --blue-ink: #02283b;
+  --green: #2ee59d;
+  --green-ink: #02291a;
+  --danger: #ff8a7a;
+
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+
+  color-scheme: dark;
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-raise: var(--raise);
+  --color-raise-2: var(--raise-2);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-text: var(--text);
+  --color-muted: var(--muted);
+  --color-faint: var(--faint);
+  --color-blue: var(--blue);
+  --color-blue-ink: var(--blue-ink);
+  --color-green: var(--green);
+  --color-green-ink: var(--green-ink);
+  --color-danger: var(--danger);
+  --font-display: var(--font-chakra), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-instrument), ui-sans-serif, system-ui, sans-serif;
+  --ease-out: var(--ease-out);
+  --ease-in-out: var(--ease-in-out);
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 5rem;
+  -webkit-text-size-adjust: 100%;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+body {
+  background-color: var(--bg);
+  /* Faint graph-paper dots, like a breadboard. */
+  background-image: radial-gradient(rgb(143 170 182 / 0.07) 1px, transparent 1px);
+  background-size: 28px 28px;
+  color: var(--text);
+  font-family: var(--font-sans);
+  font-size: 1.0625rem;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: rgb(73 198 255 / 0.3);
+  color: var(--text);
+}
+
+:focus-visible {
+  outline: 2px solid var(--blue);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+/* ─── Press feedback for anything pressable ─── */
+.pressable {
+  transition:
+    transform 160ms var(--ease-out),
+    background-color 160ms ease,
+    border-color 160ms ease,
+    color 160ms ease;
+}
+.pressable:active {
+  transform: scale(0.97);
+}
+
+/* ─── Hero trace: draws once on load ─── */
+/* Revealed with clip-path (composited) rather than stroke dashes, which break with non-scaling strokes. */
+.trace-reveal {
+  clip-path: inset(-4px 100% -4px 0);
+  animation: trace-draw 600ms var(--ease-in-out) 200ms forwards;
+}
+.trace-branches {
+  clip-path: inset(-4px 100% -4px 34%);
+  animation-name: branch-draw;
+  animation-duration: 900ms;
+  animation-delay: 720ms;
+}
+@keyframes trace-draw {
+  to {
+    clip-path: inset(-4px 66% -4px 0);
+  }
+}
+@keyframes branch-draw {
+  to {
+    clip-path: inset(-4px 0% -4px 34%);
+  }
+}
+.trace-node {
+  opacity: 0;
+  transform: scale(0.6);
+  animation: node-on 260ms var(--ease-out) 700ms forwards;
+}
+.trace-label {
+  opacity: 0;
+  transform: translateY(6px);
+  animation: label-on 320ms var(--ease-out) forwards;
+  animation-delay: 1400ms;
+}
+@keyframes node-on {
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+@keyframes label-on {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ─── Bit, the floating companion ─── */
+.bit-float {
+  animation: bit-float 3.2s ease-in-out infinite alternate;
+}
+@keyframes bit-float {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-5px);
+  }
+}
+.bit-eyes {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: bit-blink 5.2s ease-in-out infinite;
+}
+@keyframes bit-blink {
+  0%,
+  93%,
+  100% {
+    transform: scaleY(1);
+  }
+  96% {
+    transform: scaleY(0.1);
+  }
+}
+.bit-wave {
+  animation: bit-wave 520ms ease-in-out 3 alternate;
+}
+@keyframes bit-wave {
+  from {
+    transform: rotate(-12deg);
+  }
+  to {
+    transform: rotate(14deg);
+  }
+}
+.bit-swing-l {
+  animation: bit-swing 1.6s ease-in-out infinite alternate;
+}
+.bit-swing-r {
+  animation: bit-swing 1.6s ease-in-out -0.8s infinite alternate;
+}
+@keyframes bit-swing {
+  from {
+    transform: rotate(-10deg);
+  }
+  to {
+    transform: rotate(10deg);
+  }
+}
+
+.bit-bubble {
+  opacity: 0;
+  transform: translateY(4px) scale(0.97);
+  transition:
+    opacity 200ms var(--ease-out),
+    transform 200ms var(--ease-out);
+  pointer-events: none;
+}
+.bit-bubble[data-open="true"] {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .bit-body {
+    transition: transform 160ms var(--ease-out);
+  }
+  .bit-hit:hover .bit-body {
+    transform: scale(1.05);
+  }
+  .card-media img {
+    transition: transform 400ms var(--ease-out);
+  }
+  .card:hover .card-media img {
+    transform: scale(1.03);
+  }
+  .card:hover {
+    border-color: var(--line-strong);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .trace-node,
+  .trace-label {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+  .trace-reveal {
+    animation: none;
+    clip-path: inset(-4px 66% -4px 0);
+  }
+  .trace-branches {
+    clip-path: none;
+  }
+  .bit-float,
+  .bit-wave,
+  .bit-swing-l,
+  .bit-swing-r {
+    animation: none;
+  }
+  .bit-bubble {
+    transform: none;
+  }
+}
+
+/* Clip-path tab indicator (from the skills reference): one element revealed, so colors switch in sync. */
+.path-switch-active {
+  transition: clip-path 250ms var(--ease-in-out);
+}
+@media (prefers-reduced-motion: reduce) {
+  .path-switch-active {
+    transition: none;
+  }
+}
+
+/* Form fields */
+.field {
+  width: 100%;
+  border-radius: 10px;
+  border: 1px solid var(--line);
+  background: var(--bg);
+  padding: 0.7rem 0.85rem;
+  color: var(--text);
+  font-size: 1rem;
+  transition:
+    border-color 160ms ease,
+    background-color 160ms ease;
+}
+.field::placeholder {
+  color: var(--faint);
+}
+.field:hover {
+  border-color: var(--line-strong);
+}
+.field:focus-visible {
+  outline: none;
+  border-color: var(--blue);
+  background: var(--raise);
+}
+.field[aria-invalid="true"] {
+  border-color: var(--danger);
+}
