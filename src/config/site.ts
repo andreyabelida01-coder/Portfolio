@@ -21,11 +21,20 @@ export const site = {
   // Leave a link empty ("") to hide its button.
   links: {
     github: "https://github.com/andreyabelida01-coder",
-    linkedin: "https://www.linkedin.com/in/andrey-abelida-018246395/",
+    linkedin: "",
   },
   // Your live address, used for link previews when the site is shared. Change it after deploying.
   url: "https://andrey-abelida.vercel.app",
   resume: "/Andrey-Abelida-Resume.pdf",
+  // Your photo for the hero. Save it as public/profile.jpg (a square-ish crop works best).
+  // Until it exists, the frame shows your initials.
+  photo: "/profile.jpg",
+  // The line under your name cycles through these.
+  roles: [
+    { text: "Computer Engineering student", tone: "text" },
+    { text: "Full-stack developer", tone: "software" },
+    { text: "Data analyst", tone: "data" },
+  ] as { text: string; tone: "text" | Path }[],
 };
 
 export type ExperienceItem = {

@@ -27,7 +27,7 @@ export function Contact() {
         <div className="mt-8 flex flex-wrap gap-3">
           <a
             href={`mailto:${site.email}?subject=${subject}`}
-            className="pressable inline-flex items-center gap-2 rounded-xl bg-blue px-5 py-3 font-medium text-blue-ink hover:bg-[#7dd6ff]"
+            className="pressable inline-flex items-center gap-2 rounded-xl bg-blue px-5 py-3 font-medium text-blue-ink hover:bg-blue-hover"
           >
             <MailIcon size={18} />
             Write an email
@@ -85,7 +85,7 @@ export function Contact() {
             tone="data"
             say="Andrey usually replies within two days."
             bubble="left"
-            className="h-[80px] w-[72px] shrink-0 sm:h-[96px] sm:w-[86px]"
+            className="h-[92px] w-[71px] shrink-0 sm:h-[112px] sm:w-[86px]"
           />
         </div>
       </div>

@@ -1,28 +1,31 @@
 @import "tailwindcss";
 
 /*
- * Palette: a circuit board at night.
- * Solder-mask teal for surfaces, one blue trace for the software path, one green trace for the data path.
+ * Palette: a clean circuit board under daylight.
+ * Cool paper-white surfaces, one blue trace for the software path, one green trace for the data path.
  */
 :root {
-  --bg: #05141b;
-  --raise: #0a1f29;
-  --raise-2: #0f2a36;
-  --line: #1a3a48;
-  --line-strong: #27566a;
-  --text: #e4f0f4;
-  --muted: #8faab6;
-  --faint: #6a8794;
-  --blue: #49c6ff;
-  --blue-ink: #02283b;
-  --green: #2ee59d;
-  --green-ink: #02291a;
-  --danger: #ff8a7a;
+  --bg: #f3f7fa;
+  --raise: #ffffff;
+  --raise-2: #e8f0f5;
+  --line: #d5e1e8;
+  --line-strong: #adc2ce;
+  --text: #0d2430;
+  --muted: #4b6572;
+  --faint: #6f8794;
+  --blue: #0a7cc0;
+  --blue-hover: #08679f;
+  --blue-soft: #dcefff;
+  --blue-ink: #ffffff;
+  --green: #08865c;
+  --green-soft: #d8f4e8;
+  --green-ink: #ffffff;
+  --danger: #c2412d;
 
   --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
   --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
 
-  color-scheme: dark;
+  color-scheme: light;
 }
 
 @theme inline {
@@ -36,6 +39,9 @@
   --color-faint: var(--faint);
   --color-blue: var(--blue);
   --color-blue-ink: var(--blue-ink);
+  --color-blue-hover: var(--blue-hover);
+  --color-blue-soft: var(--blue-soft);
+  --color-green-soft: var(--green-soft);
   --color-green: var(--green);
   --color-green-ink: var(--green-ink);
   --color-danger: var(--danger);
@@ -60,7 +66,7 @@ html {
 body {
   background-color: var(--bg);
   /* Faint graph-paper dots, like a breadboard. */
-  background-image: radial-gradient(rgb(143 170 182 / 0.07) 1px, transparent 1px);
+  background-image: radial-gradient(rgb(13 36 48 / 0.07) 1px, transparent 1px);
   background-size: 28px 28px;
   color: var(--text);
   font-family: var(--font-sans);
@@ -71,7 +77,7 @@ body {
 }
 
 ::selection {
-  background: rgb(73 198 255 / 0.3);
+  background: rgb(10 124 192 / 0.18);
   color: var(--text);
 }
 
@@ -190,6 +196,14 @@ body {
   to {
     transform: rotate(10deg);
   }
+}
+
+.bit-hit {
+  transition: opacity 200ms ease;
+}
+.bit-hit[data-hidden="true"] {
+  opacity: 0;
+  pointer-events: none;
 }
 
 .bit-bubble {

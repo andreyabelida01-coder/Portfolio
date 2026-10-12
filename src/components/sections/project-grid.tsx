@@ -34,7 +34,7 @@ export function ProjectGrid({ projects }: { projects: Project[] }) {
           look="down"
           tone="software"
           say="Projects are on the way."
-          className="absolute right-6 top-0 h-[80px] w-[72px] -translate-y-[78%] sm:h-[96px] sm:w-[86px]"
+          className="absolute right-6 top-0 h-[92px] w-[71px] -translate-y-[78%] sm:h-[112px] sm:w-[86px]"
         />
         <p className="font-display text-[1.3rem] font-semibold">Projects are being added</p>
         <p className="mt-2 max-w-[52ch] text-muted">
@@ -87,7 +87,7 @@ export function ProjectGrid({ projects }: { projects: Project[] }) {
                     look="down"
                     tone={project.category === "data" ? "data" : "software"}
                     say="Click a card to open the live project."
-                    className="absolute right-6 top-0 z-20 h-[80px] w-[72px] -translate-y-[78%] sm:h-[96px] sm:w-[86px]"
+                    className="absolute right-6 top-0 z-20 h-[92px] w-[71px] -translate-y-[78%] sm:h-[112px] sm:w-[86px]"
                   />
                 ) : null}
                 <ProjectCard project={project} large={large} />

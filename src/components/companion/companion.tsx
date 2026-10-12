@@ -23,7 +23,7 @@ const EDGE = 12;
 
 const TONE: Record<Path, string> = { software: "var(--blue)", data: "var(--green)" };
 
-type Box = { x: number; y: number; w: number; h: number };
+type Box = { x: number; y: number; w: number; h: number; docked?: boolean };
 
 function clampBox(rect: DOMRect): Box {
   const vw = window.innerWidth;
@@ -35,8 +35,11 @@ function clampBox(rect: DOMRect): Box {
   // page margin is, and wait there until the anchor comes back.
   const offscreen = rect.top < NAV_CLEARANCE || rect.bottom > vh - EDGE;
   const x = offscreen ? vw - w - EDGE : Math.min(Math.max(rect.left, EDGE), vw - w - EDGE);
-  return { x, y, w, h };
+  return { x, y, w, h, docked: offscreen };
 }
+
+/** Below this width the page margin is too narrow for a docked Bit, so it steps out of the way. */
+const DOCK_MIN_WIDTH = 1280;
 
 function rand(min: number, max: number) {
   return min + Math.random() * (max - min);
@@ -77,6 +80,8 @@ export function Companion() {
     if (!wrap || !entry || travelling.current) return;
     const box = clampBox(entry.el.getBoundingClientRect());
     wrap.style.transform = `translate3d(${box.x}px, ${box.y}px, 0)`;
+    // While waiting for an off-screen anchor on narrower screens, hide instead of covering text.
+    wrap.dataset.hidden = String(Boolean(box.docked) && window.innerWidth < DOCK_MIN_WIDTH);
     if (wrap.offsetWidth !== Math.round(box.w)) {
       wrap.style.width = `${box.w}px`;
       wrap.style.height = `${box.h}px`;
@@ -300,7 +305,7 @@ export function Companion() {
 
       <div
         ref={wrapRef}
-        className="bit-hit pointer-events-auto absolute left-0 top-0 h-[96px] w-[86px]"
+        className="bit-hit pointer-events-auto absolute left-0 top-0 h-[112px] w-[86px]"
         style={{ transform: "translate3d(-200px, -200px, 0)", visibility: ready ? "visible" : "hidden" }}
         onPointerEnter={() => say && setBubbleOpen(true)}
         onPointerLeave={() => setBubbleOpen(false)}
@@ -317,7 +322,7 @@ export function Companion() {
         {say ? (
           <div
             data-open={bubbleOpen}
-            className={`bit-bubble absolute bottom-[calc(100%+6px)] w-max max-w-[15rem] rounded-xl border border-line-strong bg-raise-2 px-3 py-2 text-[0.8125rem] leading-snug text-text shadow-[0_8px_24px_rgb(0_0_0/0.35)] ${
+            className={`bit-bubble absolute bottom-[calc(100%+6px)] w-max max-w-[15rem] rounded-xl border border-line-strong bg-raise-2 px-3 py-2 text-[0.8125rem] leading-snug text-text shadow-[0_8px_24px_rgb(13_36_48/0.12)] ${
               bubbleSide === "left" ? "right-1/2 origin-bottom-right" : "left-1/2 origin-bottom-left"
             }`}
           >

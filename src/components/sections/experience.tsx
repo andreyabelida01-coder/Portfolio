@@ -17,7 +17,7 @@ export function Experience() {
             look="left"
             tone="data"
             say="Most recent first. The realme internship is where the data work happened."
-            className="h-[80px] w-[72px] shrink-0 sm:h-[96px] sm:w-[86px]"
+            className="h-[92px] w-[71px] shrink-0 sm:h-[112px] sm:w-[86px]"
           />
         }
       />

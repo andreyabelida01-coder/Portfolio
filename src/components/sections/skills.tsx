@@ -92,7 +92,7 @@ export function Skills() {
           look="left"
           tone="software"
           say="Flip this switch to see the other side."
-          className="h-[80px] w-[72px] sm:h-[96px] sm:w-[86px]"
+          className="h-[92px] w-[71px] sm:h-[112px] sm:w-[86px]"
         />
       </div>
 
